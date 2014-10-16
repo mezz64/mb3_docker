@@ -1,4 +1,4 @@
 mb3_docker
 ==========
 
-Copy of gfjardim's mediabrowser docker to facilitate a new build.
+Merge of gfjardim's and the official mediabrowser docker to facilitate a new build and run properly as nobody on UNRAID.
