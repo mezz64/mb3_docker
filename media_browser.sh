@@ -3,4 +3,6 @@ umask 000
 
 # Start MediaBrowser Server
 cd /opt/mediabrowser
-exec sudo -u nobody "mono /opt/mediabrowser/MediaBrowser.Server.Mono.exe -programdata /config"
+#exec sudo -u nobody "mono /opt/mediabrowser/MediaBrowser.Server.Mono.exe -programdata /config"
+
+exec /sbin/setuser nobody mono /opt/MediaBrowser/MediaBrowser.Server.Mono.exe -programdata /config
