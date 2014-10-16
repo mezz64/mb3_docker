@@ -1,9 +1,9 @@
-FROM ubuntu:trusty
+FROM phusion/baseimage:0.9.15
 MAINTAINER mezz64 <mezz64@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 # Set correct environment variables
-#ENV HOME /root
+ENV HOME /root
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 RUN locale-gen en_US en_US.UTF-8
@@ -11,15 +11,15 @@ RUN update-locale LANG=en_US.UTF-8
 RUN dpkg-reconfigure locales
 
 # Use baseimage-docker's init system
-#CMD ["/sbin/my_init"]
+CMD ["/sbin/my_init"]
 
 # Fix a Debianism of the nobody's uid being 65534
 RUN usermod -u 99 nobody
 RUN usermod -g 100 nobody
 
 #RUN apt-get update -qq
-# Update ubuntu
-RUN apt-mark hold initscripts udev plymouth mountall
+# Update
+#RUN apt-mark hold initscripts udev plymouth mountall
 RUN apt-get -q update
 RUN apt-get dist-upgrade -qy && apt-get -q update
 
@@ -45,27 +45,27 @@ RUN mkdir /config && chown -R nobody:users /config
 
 #VOLUMES
 VOLUME /config
-#RUN rm -rf /opt/MediaBrowser/ProgramData-Server && \
-#    ln -sf /config/ /opt/MediaBrowser/ProgramData-Server && \
-#    chown -R nobody:users /opt/MediaBrowser
+RUN rm -rf /opt/MediaBrowser/ProgramData-Server && \
+    ln -sf /config/ /opt/MediaBrowser/ProgramData-Server && \
+    chown -R nobody:users /opt/MediaBrowser
 
 # Add media_browser.sh to runit
-#RUN mkdir /etc/service/media_browser
-#ADD media_browser.sh /etc/service/media_browser/run
-#RUN chmod +x /etc/service/media_browser/run
+RUN mkdir /etc/service/media_browser
+ADD media_browser.sh /etc/service/media_browser/run
+RUN chmod +x /etc/service/media_browser/run
 
-ADD ./media_browser.sh /media_browser.sh
-RUN chmod u+x  /media_browser.sh
+#ADD ./media_browser.sh /media_browser.sh
+#RUN chmod u+x  /media_browser.sh
 
 # Default MB3 HTTP/tcp server port
-EXPOSE 8096/tcp
+#EXPOSE 8096/tcp
 # UDP server port
-EXPOSE 7359/udp
+#EXPOSE 7359/udp
 # ssdp port for UPnP / DLNA discovery
-EXPOSE 1900/udp
+#EXPOSE 1900/udp
 
 # Run as default unRAID user nobody
-USER nobody
-ENTRYPOINT ["/media_browser.sh"]
+#USER nobody
+#ENTRYPOINT ["/media_browser.sh"]
 
 
