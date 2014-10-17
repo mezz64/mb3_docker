@@ -24,7 +24,7 @@ RUN apt-get -q update
 RUN apt-get dist-upgrade -qy && apt-get -q update
 
 # Install MediaBrowser run dependencies
-RUN apt-get install -qy --force-yes libmono-cil-dev Libgdiplus mediainfo wget
+RUN apt-get install -qy --force-yes libmono-cil-dev Libgdiplus mediainfo libwebp-dev wget
 
 # Download latest release from Dropbox
 RUN wget https://github.com/MediaBrowser/MediaBrowser.Resources/raw/master/Releases/Server/mediabrowser.deb && dpkg -i mediabrowser.deb && apt-get install -f
