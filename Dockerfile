@@ -30,7 +30,7 @@ RUN apt-get install -qy --force-yes libmono-cil-dev Libgdiplus mediainfo wget
 RUN wget https://github.com/MediaBrowser/MediaBrowser.Resources/raw/master/Releases/Server/mediabrowser.deb && dpkg -i mediabrowser.deb && apt-get install -f
 
 # Uncomment for unRAID
-RUN chown -R nobody:users /opt/mediabrowser
+#RUN chown -R nobody:users /opt/mediabrowser
 
 # Install MediaBrowser
 #RUN mkdir mkdir /opt/MediaBrowser && \
@@ -45,9 +45,9 @@ RUN mkdir /config && chown -R nobody:users /config
 
 #VOLUMES
 VOLUME /config
-RUN rm -rf /opt/MediaBrowser/ProgramData-Server && \
-    ln -sf /config/ /opt/MediaBrowser/ProgramData-Server && \
-    chown -R nobody:users /opt/MediaBrowser
+RUN rm -rf /opt/mediabrowser/ProgramData-Server && \
+    ln -sf /config/ /opt/mediabrowser/ProgramData-Server && \
+    chown -R nobody:users /opt/mediabrowser
 
 # Add media_browser.sh to runit
 RUN mkdir /etc/service/media_browser
