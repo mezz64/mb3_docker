@@ -24,7 +24,8 @@ RUN apt-get -q update
 RUN apt-get dist-upgrade -qy && apt-get -q update
 
 # Install MediaBrowser run dependencies
-RUN apt-get install -qy --force-yes libmono-cil-dev Libgdiplus mediainfo libwebp-dev wget
+#libwebp-dev
+RUN apt-get install -qy --force-yes libmono-cil-dev Libgdiplus mediainfo wget
 
 # Download latest release from Dropbox
 RUN wget https://github.com/MediaBrowser/MediaBrowser.Resources/raw/master/Releases/Server/mediabrowser.deb && dpkg -i mediabrowser.deb && apt-get install -f
@@ -53,6 +54,14 @@ RUN rm -rf /opt/mediabrowser/ProgramData-Server && \
 RUN mkdir /etc/service/media_browser
 ADD media_browser.sh /etc/service/media_browser/run
 RUN chmod +x /etc/service/media_browser/run
+
+# Fix Imazen.WebP.dll.config File
+RUN echo "<configuration>" > /opt/mediabrowser/Imazen.WebP.dll.config
+RUN echo "<dllmap dll="libwebp" target="./libwebp/linux/lib/libwebp.so" os="linux" wordsize="32"/>" >> /opt/mediabrowser/Imazen.WebP.dll.config
+RUN echo "<dllmap dll="libwebp" target="./libwebp/linux/lib64/libwebp.so" os="linux" wordsize="64"/>" >> /opt/mediabrowser/Imazen.WebP.dll.config
+RUN echo "<dllmap dll="libwebp" target="./libwebp/osx/libwebp.5.dylib" os="osx"/>" >> /opt/mediabrowser/Imazen.WebP.dll.config
+RUN echo "<dllmap dll="libwebp" target="libwebp.so" os="linux" cpu="!x86,x86-64"/>" >> /opt/mediabrowser/Imazen.WebP.dll.config
+RUN echo "</configuration>" >> /opt/mediabrowser/Imazen.WebP.dll.config
 
 #ADD ./media_browser.sh /media_browser.sh
 #RUN chmod u+x  /media_browser.sh
